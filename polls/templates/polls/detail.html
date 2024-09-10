@@ -1,0 +1,53 @@
+<!--Call the attribute "question_text"
+    on the "question" object.-->
+<h1>{{ question.question_text }}</h1>
+<ul>
+
+<h style="font-size: large; font-weight: bold;">
+  <u>Choices</u>
+</h>
+
+<!--Iterate through all of the Choice objects that
+    belong to the Question object called "question".
+
+    question.choice_set.all returns an iterable.-->
+{% for choice in question.choice_set.all %}
+  <li>{{ choice.choice_text }}</li>
+{% endfor %}
+</ul>
+
+<!-- http://127.0.0.1:8000/polls/1/vote/ -->
+<form action="{% url 'polls:vote' question.id %}" method="post">
+  {% csrf_token %}
+
+  <!--The <fieldset> tag is used to group related elements in a form.-->
+  <fieldset>
+    <legend><h1>{{ question.question_text }}</h1></legend>
+
+    {% if error_message %}
+      <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
+
+    {% for choice in question.choice_set.all %}
+      <!--Since "choice" is assigned to the "name" attribute
+          it means when somebody selects one of the radio
+          buttons and submits the form, it’ll send the POST
+          data choice=# where # is the ID of the selected choice.-->
+
+      <!--Radio button-->
+      <input type="radio" name="choice"
+        id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+
+      <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+
+      <p>forloop.counter: {{ forloop.counter }}</p>
+
+      <p>choice.id: {{ choice.id }}</p>
+    {% endfor %}
+  </fieldset>
+
+  <!--Button to submit the form.
+      Once this button is clicked, a POST request
+      is sent.-->
+  <input type="submit" value="Vote">
+</form>
