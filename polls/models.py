@@ -19,7 +19,7 @@ class Question(models.Model):
     print("timezone.now() - datetime.timedelta(days=1):", timezone.now() - datetime.timedelta(days=1))
     return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
-    # Evaluate to "False".
+    # Evaluates to "False".
     # return 2 >= 3
 
   # Adding __str__() methods to your models makes it
@@ -44,6 +44,8 @@ class Choice(models.Model):
   question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
   choice_text = models.CharField(max_length=200)
+
+  # "votes" is a field in a database table.
   votes = models.IntegerField(default=0)
 
   def __str__(self):

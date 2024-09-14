@@ -1,0 +1,17 @@
+<h1>{{ question.question_text }}</h1>
+
+<!--<ul> stands for unordered list and will
+    indent content inside it as well as add
+    vertical spacing to the bottom of the
+    content.-->
+<ul>
+{% for choice in question.choice_set.all %}
+  <!--<li> stands for list item and precedes each list
+      item with a bullet point and puts a newline character
+      at the end of each item..-->
+  <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+{% endfor %}
+</ul>
+
+<!-- /polls/specifics/<question.id>/ -->
+<a href="{% url 'polls:detail' question.id %}">Vote again?</a>
